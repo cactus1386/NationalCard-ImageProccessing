@@ -1,8 +1,9 @@
 import cv2
 import numpy as np
 import random
+import easyocr
 
-background = cv2.imread("aa.jpg")
+background = cv2.imread("./dataset/aa.jpg")
 
 
 def random_national_id():
@@ -25,4 +26,4 @@ for i in range(100):
     add_text(img, national_id, (120, 150))
     add_text(img, birth_date, (200, 200))
 
-    cv2.imwrite(f"synthetic_dataset/synthetic_{i}.jpg", img)
+    # cv2.imwrite(f"./dataset/synthetic_{i}.jpg", img)
