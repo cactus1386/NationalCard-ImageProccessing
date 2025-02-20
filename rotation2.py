@@ -7,7 +7,7 @@ from mtcnn import MTCNN
 model = YOLO("CardDetection.pt")
 
 # خواندن تصویر
-image = cv2.imread("./test_image_phase1/3.jpg")
+image = cv2.imread("./test_image_phase1/2975.PNG")
 
 # اجرای YOLO برای تشخیص کارت ملی
 results = model(image)
@@ -39,7 +39,8 @@ face_center = (int(x + w // 2), int(y + h // 2))
 
 # محاسبه زاویه چرخش کارت
 card_center = (cropped_card.shape[1] // 2, cropped_card.shape[0] // 2)
-angle = np.arctan2(face_center[1] - card_center[1], face_center[0] - card_center[0]) * (180 / np.pi)
+angle = np.arctan2(face_center[1] - card_center[1],
+                   face_center[0] - card_center[0]) * (180 / np.pi)
 
 # اضافه کردن 180 درجه به زاویه برای تصحیح چرخش
 angle += 180
