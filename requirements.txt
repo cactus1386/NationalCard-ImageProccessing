@@ -1,0 +1,8 @@
+ultralytics
+easyocr
+hezar
+mtcnn
+numpy
+pandas 
+matplotlib
+opencv-python
