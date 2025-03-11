@@ -23,6 +23,11 @@ This project detects and extracts information from Iranian national ID cards usi
 folder = '/content/drive/MyDrive/images'
 ```
 
+## Example Image
+
+Place an example ID card image here:
+
+![98](https://github.com/user-attachments/assets/f6c0b2c6-7068-452a-885a-b7fb3f593ad7)
 
 ## Example Output
 
@@ -41,12 +46,6 @@ folder = '/content/drive/MyDrive/images'
   "expiry_day": "۲۱"
 }
 ```
-
-## Example Image
-
-Place an example ID card image here:
-
-![98](https://github.com/user-attachments/assets/f6c0b2c6-7068-452a-885a-b7fb3f593ad7)
 
 ## Developers:
 
