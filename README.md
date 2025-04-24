@@ -1,33 +1,32 @@
+
 # National ID Card Detection and OCR
 
-This project detects and extracts information from Iranian national ID cards using a combination of object detection and OCR techniques.
+NationalCard-ImageProcessing is a Python-based tool for automatically detecting and extracting information from Iranian national ID cards — regardless of their orientation, angle, or perspective. The system processes input images and returns the extracted data (like National ID number and birthdate) in a structured table format.
+
+
+
 
 ## Installation
 
 1. Clone the repository:
-   ```bash
-   https://github.com/cactus1386/NationalCard-ImageProccessing.git
-   cd NationalCard-ImageProccessing
-   ```
-2. Install the required dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
 
-## Usage
-
-1. Place images of national ID cards in the `images` folder.
-2. Set folder in your main path like this:
-
-```python
-folder = '/content/drive/MyDrive/images'
+```bash
+git clone https://github.com/cactus1386/NationalCard-ImageProccessing.git
+cd NationalCard-ImageProccessing
 ```
 
+2. Set images directory path:
+```bash
+detect('your-path')
+```
+
+3. Run cells in main.ipynb file!
 ## Example Image
 
 Place an example ID card image here:
 
 ![98](https://github.com/user-attachments/assets/f6c0b2c6-7068-452a-885a-b7fb3f593ad7)
+
 
 ## Example Output
 
@@ -46,8 +45,10 @@ Place an example ID card image here:
   "expiry_day": "۲۱"
 }
 ```
+## Contact
 
-## Developers:
+- [radinam1386@gmail.com](mailto:radinam1386@gmail.com)
+- Telegram: [@KhodeRadinam](https://t.me/KhodeRadinam)
+## Developers
 
 code by Radin Almasi and Ali Najafpour
-
