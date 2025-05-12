@@ -46,9 +46,12 @@ Place an example ID card image here:
 }
 ```
 ## Contact
-
+Radin
 - [radinam1386@gmail.com](mailto:radinam1386@gmail.com)
 - Telegram: [@KhodeRadinam](https://t.me/KhodeRadinam)
+Ali
+- [ali.najafpour07@gmail.com](ali.najafpour07@gmail.com)
+- Telegram: [@Ali_Najafpour07](https://t.me/Ali_Najafpour07)
 ## Developers
 
 code by Radin Almasi and Ali Najafpour
