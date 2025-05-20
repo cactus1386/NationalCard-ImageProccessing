@@ -12,7 +12,7 @@ fonts = [
     './Font/Vazir.ttf'
 ]
 font_size = random.randint(25, 35)
-width = 250
+width = 200
 height = 70
 
 def generate_national():
@@ -64,6 +64,10 @@ fathers = [
     "شهرام", "مسعود", "محسن", "مهدی", "مجید", "بهمن", "پرویز", "کیوان", "شهریار", "افشین",
 ]
 
+def convert_to_persian_numbers(text):
+    persian_digits = "۰۱۲۳۴۵۶۷۸۹"
+    return ''.join(persian_digits[int(ch)] if ch.isdigit() else ch for ch in text)
+
 with open('data.txt', 'w', encoding='utf-8') as f:
     for _ in range(1500):
         first = random.choice(names)
@@ -73,7 +77,12 @@ with open('data.txt', 'w', encoding='utf-8') as f:
         expire = generate_date(1350, 1450)
         national = generate_national()
 
+        birth = convert_to_persian_numbers(birth)
+        expire = convert_to_persian_numbers(expire)
+        national = convert_to_persian_numbers(national)
+
         data = f'{first} \n {last} \n {father} \n {birth} \n {expire} \n {national}'
+
         f.write(data + '\n')
 
 print('generate data complete and save in data.txt')

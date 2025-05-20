@@ -48,7 +48,7 @@ for img in tqdm(image_files, desc="Applying augmentations"):
     with open(os.path.join(aug_label_dir, f"{base_name}_orig.txt"), 'w', encoding='utf-8') as f:
         f.write(label_text)
 
-    for i in range(4):
+    for i in range(5):
         aug = transform(image=image_np)
         aug_image = aug['image']
         aug_name = f"{base_name}_aug{i+1:02d}"
