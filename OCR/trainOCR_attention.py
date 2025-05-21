@@ -7,7 +7,6 @@ from torch.utils.data import DataLoader, Dataset, random_split
 import torchvision.transforms as transforms
 from PIL import Image
 
-# Load model config
 with open("./crnn-base-fa-v2/model_config.yaml", "r", encoding="utf-8") as f:
     model_config = yaml.safe_load(f)
 
@@ -15,8 +14,7 @@ id2label = {int(k): v for k, v in model_config["id2label"].items()}
 label2id = {v: k for k, v in id2label.items()}
 blank_id = model_config.get("blank_id", 0)
 
-# Load image processor config
-with open(".//crnn-base-fa-v2/preprocessor/image_processor_config.yaml", "r", encoding="utf-8") as f:
+with open("./crnn-base-fa-v2/preprocessor/image_processor_config.yaml", "r", encoding="utf-8") as f:
     image_config = yaml.safe_load(f)
 
 image_size = tuple(image_config["size"])
@@ -72,13 +70,13 @@ class Attention(nn.Module):
         self.attn = nn.Linear(dim, 1)
 
     def forward(self, x):
-        weights = self.attn(x)  # [seq_len, batch, 1]
+        weights = self.attn(x)
         weights = torch.softmax(weights, dim=0)
         x = x * weights
         return x
 
 class CRNNWithAttention(nn.Module):
-    def __init__(self, n_channels, num_classes, map2seq_in_dim, map2seq_out_dim, rnn_dim):
+    def __init__(self, n_channels, num_classes, map2seq_out_dim, rnn_dim):
         super(CRNNWithAttention, self).__init__()
         self.cnn = nn.Sequential(
             CNNBlock(n_channels, 64),
@@ -93,7 +91,12 @@ class CRNNWithAttention(nn.Module):
             CNNBlock(512, 512),
             CNNBlock(512, 512),
         )
-        self.map2seq = nn.Linear(map2seq_in_dim, map2seq_out_dim)
+        dummy_input = torch.randn(1, n_channels, *image_size)
+        with torch.no_grad():
+            features = self.cnn(dummy_input)
+            b, c, h, w = features.size()
+            self.map2seq_in_dim = h * c
+        self.map2seq = nn.Linear(self.map2seq_in_dim, map2seq_out_dim)
         self.rnn1 = nn.LSTM(map2seq_out_dim, rnn_dim, bidirectional=True, batch_first=True)
         self.rnn2 = nn.LSTM(rnn_dim * 2, rnn_dim, bidirectional=True, batch_first=True)
         self.attn = Attention(rnn_dim * 2)
@@ -108,8 +111,7 @@ class CRNNWithAttention(nn.Module):
         x, _ = self.rnn2(x)
         x = self.attn(x)
         x = self.fc(x)
-        return x.permute(1, 0, 2)  # برای CTC loss
-
+        return x.permute(1, 0, 2)
 
 def train_model(model, dataloader, criterion, optimizer, num_epochs=100):
     best_loss = float("inf")
@@ -160,7 +162,6 @@ if __name__ == "__main__":
     model = CRNNWithAttention(
         n_channels=model_config["n_channels"],
         num_classes=len(label2id),
-        map2seq_in_dim=model_config["map2seq_in_dim"],
         map2seq_out_dim=model_config["map2seq_out_dim"],
         rnn_dim=model_config["rnn_dim"]
     ).to(device)
@@ -169,17 +170,10 @@ if __name__ == "__main__":
         pretrained_path = "./crnn-base-fa-v2/model.pt"
         pretrained_dict = torch.load(pretrained_path, map_location=device)
         model_dict = model.state_dict()
-
-        filtered_dict = {
-            k: v for k, v in pretrained_dict.items()
-            if k in model_dict and v.size() == model_dict[k].size()
-        }
-
+        filtered_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict and v.size() == model_dict[k].size()}
         print(f"Loading {len(filtered_dict)} / {len(model_dict)} layers from pre-trained weights.")
-
         model_dict.update(filtered_dict)
         model.load_state_dict(model_dict)
-
 
     criterion = nn.CTCLoss(blank=blank_id, zero_infinity=True)
     optimizer = optim.Adam(model.parameters(), lr=0.0002)

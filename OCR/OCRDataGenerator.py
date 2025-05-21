@@ -11,9 +11,9 @@ fonts = [
     './Font/Vazir-Medium.ttf',
     './Font/Vazir.ttf'
 ]
-font_size = random.randint(25, 35)
-width = 200
-height = 70
+font_size = random.randint(20, 27)
+width = 384
+height = 32
 
 def generate_national():
     code = [random.randint(0, 9) for _ in range(9)]
