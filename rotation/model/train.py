@@ -2,8 +2,8 @@ import torch
 from torch.utils.data import DataLoader
 import torch.nn as nn
 import torch.optim as optim
-from model import HomographyModel
-from dataset import HomographyDataset
+from rotation.model.model import HomographyModel
+from rotation.model.dataset import HomographyDataset
 
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
